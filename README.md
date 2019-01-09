@@ -9,7 +9,7 @@
 
 ### Links and Resources
 * [repo]https://github.com/hingham/12-express-hi
-* [travis](http://xyz.com)
+* [travis][![Build Status](https://www.travis-ci.com/hingham/12-express.svg?branch=master)](https://www.travis-ci.com/hingham/12-express)
 
 ### Modules
 #### middleware: type-check.js, 404.js, 500.js
