@@ -1,14 +1,36 @@
 'use strict';
+const notFound = require('./middleware/404.js');
+const type = require('./middleware/type-check.js');
 const express = require('express');
 const uuid = require('uuid/v1');
+const errorHandler = ('./middleware/500.js');
+
 const app = express();
-const type = require('./middleware/type-check.js');
+
 const PORT = process.env.PORT || 8080;
-const errorHandler = require('./middleware/500.js');
-const error404 = require('./middleware/404.js');
+
+// function error500 (err,req,res,next) {
+//   console.log('In the error handler');
+//   res.status(500).send('WTF');
+//   res.end();
+// }
 
 app.use(express.json());
 let db = [];
+app.use(typeCheck);
+
+function typeCheck(req, res, next){
+  if(req.body.name && req.body.display && req.body.description){
+    if( (typeof(req.body.name)==='string') && (typeof(req.body.display)==='string') && (typeof(req.body.description)==='string') ){
+      next();
+    }
+  }
+  // error400(req, res);
+  console.log('not found');
+  res.status(400).send('400 user err error');
+  // req.end();
+}
+
 
 
 function Record (body) {
@@ -32,6 +54,12 @@ app.get('/categories', (req,res,next) => {
   res.json({count,results});
 });
 
+// app.get('/categories', (req, res, next) =>  {
+//   console.log('app get');
+//   let count = db.length;
+//   let results = db;
+//   res.json({count,results});
+// });
 
 app.get('/categories/:id', (req,res,next) => {
   let id = req.params.id;
@@ -39,7 +67,7 @@ app.get('/categories/:id', (req,res,next) => {
   res.json(record[0]);
 });
 
-app.post('/categories', (req,res, next) => {
+app.post('/categories', typeCheck, (req,res, next) => {
   let record = new Record(req.body);
   db.push(record);
   console.log(db);
@@ -47,7 +75,7 @@ app.post('/categories', (req,res, next) => {
 });
 
 
-app.put('/categories/:id', (req,res, next) => {
+app.put('/categories/:id', typeCheck, (req,res, next) => {
   let id = parseInt(req.params.id); //id the of the record to change
   let record = new Record(req.body);
   if(record.name){
@@ -76,6 +104,7 @@ function PostRec (body) {
     this.description = body.description;
     this.id = Math.floor( Math.random() * 1000 );
   }
+  else return null;
 }
 
 
@@ -97,13 +126,13 @@ app.get('/products/:id', (req,res,next) => {
 });
 
 
-app.post('/products', type.typeCheck, (req,res,next) => {
+app.post('/products', (req,res,next) => {
   let record = new PostRec(req.body);
   db.push(record);
   res.json(record);
 });
 
-app.put('/products/:id', type.typeCheck, (req,res,next) => {
+app.put('/products/:id', (req,res,next) => {
   let id = parseInt(req.params.id); //id the of the record to change
   let record = new PostRec(req.body);
   if(record.name){
@@ -123,15 +152,13 @@ app.delete('/products/:id', (req,res,next) => {
   res.status(200).send({});
 });
 
-
-app.use('*', error404.error404);
-app.use(errorHandler.error500);
-
+// app.use('*', notFound);
+// app.use(error500);
 
 module.exports = {
-    server: app,
-    start: port => {
-      let PORT = port || process.env.PORT || 8080;
-      app.listen(PORT, () => console.log(`Listening on ${PORT}`));
-    },
-  };
+  server: app,
+  start: port => {
+    let PORT = port || process.env.PORT || 8080;
+    app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+  },
+};

@@ -1,19 +1,19 @@
 ![CF](http://i.imgur.com/7v5ASc8.png) LAB
 =================================================
 
-## Project Name
+## Bestest Expressest Server
 
-### Author: Student/Group Name
+### Author: Hannah Ingham, Brent Wordward
+
+#### Worked with Lena Evy
 
 ### Links and Resources
-* [repo](http://xyz.com)
+* [repo]https://github.com/hingham/12-express-hi
 * [travis](http://xyz.com)
-* [back-end](http://xyz.com)
-* [front-end](http://xyz.com)
 
 ### Modules
-#### `modulename.js`
-##### Exported Values and Methods
+#### middleware: type-check.js, 404.js, 500.js
+##### actions: app-get.js, app-post.js, 
 
 ###### `foo(thing) -> string`
 Usage Notes or examples
