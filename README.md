@@ -10,10 +10,14 @@
 ### Links and Resources
 * [repo](https://github.com/hingham/12-express-hi)
 * [![Build Status](https://www.travis-ci.com/hingham/12-express.svg?branch=master)](https://www.travis-ci.com/hingham/12-express)
+* [heroku](https://lab-12-hi.herokuapp.com)
+
+
+###Docs
+* swagger route: `/docs`
 
 ### Modules
 #### middleware: type-check.js, 404.js, 500.js
-##### actions: app-get.js, app-post.js, 
 
 
 ### Setup
@@ -24,10 +28,13 @@
 
 #### Running the app
 * `nodemon index.js`
-* Endpoint: `/categores` `/products`
+* Endpoint: `/category` `/products`
 * Returns a JSON API object]
 * get/categories; get/categories/{id}, put/categories/{id}, delete/categories/{id}
     put/categories
+
+* Example post: 
+`echo '{"name": "test", "display":"test", "description":"test"}' | http post :8080/category`
 
 #### Tests
 * How do you run tests?: run tests with supertests, and mockrequests
